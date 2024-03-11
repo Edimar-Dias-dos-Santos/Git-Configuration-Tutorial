@@ -110,3 +110,9 @@ This command will show the origin of Git's global credential helper configuratio
 
 By following these steps, you'll be ready to authenticate yourself on GitHub repositories using HTTPS securely and effectively.
 
+
+#Configurando chave SSH caso prefira usar no lugar do token
+verificar ls -a ~/.ssh
+
+
+
