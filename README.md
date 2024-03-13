@@ -1,4 +1,3 @@
-```
 # Git Configuration Tutorial
 
 ## Setting up User Information
@@ -6,13 +5,13 @@
 To configure Git with your user information, follow these steps:
 
 1. Set your Git username:
-    ```bash
+    ```
     git config --global user.name "Your Name"
     ```
    Replace `"Your Name"` with your actual name. This name will be associated with your commits.
 
 2. Set your Git email address:
-    ```bash
+    ```
     git config --global user.email "youremail@example.com"
     ```
    Replace `"youremail@example.com"` with your actual email address. This email will be associated with your commits.
@@ -22,40 +21,39 @@ To configure Git with your user information, follow these steps:
 To retrieve your configured user information, you can use the following commands:
 
 - To get your configured username:
-    ```bash
+    ```
     git config --global user.name
     ```
 
 - To get your configured email address:
-    ```bash
+    ```
     git config --global user.email
     ```
 
 ## Default Branch Configuration
 
 Git now commonly uses "main" as the default branch name instead of "master". To set this as your default branch for new repositories, use the following command:
-
-```bash
-git config --global init.defaultBranch main
-```
+  ```
+   git config --global init.defaultBranch main
+  ```
 
 To retrieve your configured default branch name for new repositories, use:
 
-```bash
-git config --global init.defaultBranch
-```
+  ```
+   git config --global init.defaultBranch
+  ```
+
 
 ## Viewing Global Configuration
 
 To view all your global Git configurations, including user information and default branch settings, use the following command:
 
-```bash
-git config --global --list
-```
+  ```
+   git config --global --list
+  ```
+
 
 This will display a list of all your global Git configurations.
-```
-
 
 # Authenticating via Token - HTTPS
 
@@ -87,32 +85,88 @@ After generating your personal access token, you can configure Git to store your
 
 You can set this up using the following Git commands:
 
-```bash
-git config --global credential.helper cache
-```
-
+  ```
+  git config --global credential.helper cache
+  ```
 This command configures Git to temporarily store your credentials in memory.
 
-```bash
-git config --global credential.helper store
-```
+  ```
+  git config --global credential.helper store
+  ```
+
 This command configures Git to store your credentials permanently in an unencrypted text file. **Please note that this may be less secure than using a password management tool.**
 
 ## Verify Credential Helper Settings
 
 To verify Git's credential helper settings, you can use the following command:
+  
+  ```
+  git config --global --show-origin credential.helper
+  ```
 
-```bash
-git config --global --show-origin credential.helper
-```
 
 This command will show the origin of Git's global credential helper configuration.
 
 By following these steps, you'll be ready to authenticate yourself on GitHub repositories using HTTPS securely and effectively.
 
+# Configuring SSH Key Authentication
 
-#Configurando chave SSH caso prefira usar no lugar do token
-verificar ls -a ~/.ssh
+SSH key authentication provides a secure way to access GitHub repositories without constantly entering your credentials. Here's how to set it up:
+
+## Check for Existing SSH Key
+
+Check if you already have an SSH key:
+
+  ```
+  ls -a ~/.ssh
+  ```
+
+If you already have an SSH key, it should appear in the list. Typically, key files have names like `id_rsa` (private key) and `id_rsa.pub` (public key). If there's no SSH key, you'll need to generate one.
+
+## Generate a New SSH Key
+
+Generate a new SSH key:
+
+  ```
+  ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+  ```
 
 
+## Add SSH Key to the SSH Agent
 
+Start the SSH agent by running the following command:
+
+  ```
+  eval "$(ssh-agent -s)"
+  ```
+
+
+Add your private key to the SSH agent:
+
+  ```
+  ssh-add ~/.ssh/id_rsa
+  ```
+
+## Add SSH Key to Your GitHub Account
+
+Copy your public key to the clipboard:
+
+```
+pbcopy < ~/.ssh/id_rsa.pub
+```
+
+
+Access the SSH settings in your GitHub account. Go to Settings -> SSH and GPG keys -> New SSH key and paste the public key into the text box. Give a title for the key (e.g., "My SSH Key") and click Add SSH key.
+
+## Test the SSH Connection
+
+Test the SSH connection:
+
+  ```
+  ssh -T git@github.com
+  ```
+
+
+You should see a confirmation message indicating that you are authenticated.
+
+Now your SSH key is configured and ready for use with GitHub. You'll be able to push, pull, and perform other Git operations without needing to enter your credentials every time.
